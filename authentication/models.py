@@ -4,8 +4,6 @@ from django.db import models
 from authentication.manager import AccountManager
 
 
-# Create your models here.
-
 class Account(AbstractUser):
     username = None
     first_name = None
@@ -22,3 +20,12 @@ class Account(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class EmailConfirmationModel(models.Model):
+    uid = models.CharField(max_length=55)
+    created_at = models.DateTimeField(auto_now_add=True)
+    token = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.token

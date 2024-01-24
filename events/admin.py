@@ -1,10 +1,14 @@
 from django.contrib import admin
 
-from events.models import Event
-from votes.admin import VoteAdmin
+from events.models import Event, Vote
 
 
 # Register your models here.
+
+class VoteAdmin(admin.TabularInline):
+    model = Vote
+    extra = 1
+
 
 class EventAdmin(admin.ModelAdmin):
     inlines = [
