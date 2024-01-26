@@ -6,6 +6,7 @@ from authentication.serializers import SignupSerializer, EmptySerializer
 
 
 class AuthenticationViewSet(viewsets.ModelViewSet):
+    serializer_class = SignupSerializer
     queryset = []
 
     def get_serializer_class(self):
@@ -19,6 +20,7 @@ class AuthenticationViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['POST'], url_path='signup')
     def signup(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'message': 'Please confirm your email address to complete the registration'})
         return Response(serializer.data, status=status.HTTP_201_CREATED)

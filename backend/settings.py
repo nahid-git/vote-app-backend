@@ -1,19 +1,29 @@
+import os
 from datetime import timedelta
 from pathlib import Path
+
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+ENV = environ.Env(DEBUG=(bool, True))
+
+ENV_FILE = Path(os.path.join(BASE_DIR, '.env'))
+if ENV_FILE.exists():
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lq@dt3wu=5jsh)y$8wmomple+^wan@zp=k%$6&qk!8!j6_m=!s'
+SECRET_KEY = ENV("SECRET_KEY")
+CLIENT_URL = ENV("CLIENT_URL")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
+APPEND_SLASH = True
 
 # Application definition
 
@@ -27,6 +37,8 @@ INSTALLED_APPS = [
 
     # custom app
     'rest_framework',
+    "corsheaders",
+    'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'authentication',
     'events',
@@ -38,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -135,5 +148,5 @@ SIMPLE_JWT = {
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'nahidbabu.info@gmail.com'
-EMAIL_HOST_PASSWORD = 'zeaqgucwpaaorfbv'
+EMAIL_HOST_PASSWORD = 'iqhucpoqkxnvjqxh'
 EMAIL_PORT = 587
