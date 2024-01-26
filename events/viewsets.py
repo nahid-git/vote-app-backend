@@ -12,6 +12,7 @@ class EventsViewSet(viewsets.ModelViewSet):
     serializer_class = EventsSerializer
     permission_classes = [IsAuthenticated]
 
+    @property
     def get_permissions(self):
         if self.action in ['destroy']:
             self.permission_classes = [IsAdminUser]
