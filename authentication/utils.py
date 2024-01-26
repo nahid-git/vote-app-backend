@@ -28,7 +28,7 @@ def sent_user_verify_email(user):
     smtp.login(smtp_user, smtp_password)
 
     mail_subject = 'Activate your Vote App Account'
-    email_body = settings.CLIENT_URL + 'verify?uid=' + uidb64 + '&token=' + token
+    email_body = settings.CLIENT_URL + 'auth/verify?uid=' + uidb64 + '&token=' + token
 
     msg = MIMEText(email_body)
     msg['Subject'] = mail_subject
