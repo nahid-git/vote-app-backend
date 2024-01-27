@@ -25,7 +25,16 @@ class Account(AbstractUser):
 class EmailConfirmationModel(models.Model):
     uid = models.CharField(max_length=55)
     created_at = models.DateTimeField(auto_now_add=True)
-    token = models.CharField(max_length=255)
+    token = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.token
+
+
+class ForgotPasswordModel(models.Model):
+    uid = models.CharField(max_length=55)
+    created_at = models.DateTimeField(auto_now_add=True)
+    token = models.CharField(max_length=1000)
 
     def __str__(self):
         return self.token

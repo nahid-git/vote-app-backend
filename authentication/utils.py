@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from authentication.models import EmailConfirmationModel
+from authentication.models import EmailConfirmationModel, ForgotPasswordModel
 from authentication.token import account_activation_token
 
 smtp_host = settings.EMAIL_HOST
@@ -28,7 +28,9 @@ def sent_user_verify_email(user):
     smtp.login(smtp_user, smtp_password)
 
     mail_subject = 'Activate your Vote App Account'
-    email_body = settings.CLIENT_URL + 'auth/verify?uid=' + uidb64 + '&token=' + token
+    email_body = (
+            settings.CLIENT_URL + 'auth/verify?' + token + token + token + '&uid=' + uidb64 + '&token=' + token + '&'
+            + token + token)
 
     msg = MIMEText(email_body)
     msg['Subject'] = mail_subject
@@ -36,5 +38,31 @@ def sent_user_verify_email(user):
     msg['To'] = user.email
 
     smtp.sendmail(settings.EMAIL_HOST_USER, [user.email], msg.as_string())
+    smtp.quit()
 
+
+def sent_reset_password_email(user):
+    uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+    token = account_activation_token.make_token(user)
+
+    ForgotPasswordModel.objects.create(
+        uid=uidb64,
+        token=token
+    )
+
+    smtp = smtplib.SMTP(smtp_host, smtp_port)
+    smtp.starttls()
+    smtp.login(smtp_user, smtp_password)
+
+    mail_subject = 'Vote App Forgot password email confirmation'
+    email_body = (
+            settings.CLIENT_URL + 'auth/reset_password?' + token + token + token + '&uid=' + uidb64 + '&token=' + token + '&'
+            + token + token)
+
+    msg = MIMEText(email_body)
+    msg['Subject'] = mail_subject
+    msg['From'] = settings.EMAIL_HOST_USER
+    msg['To'] = user.email
+
+    smtp.sendmail(settings.EMAIL_HOST_USER, [user.email], msg.as_string())
     smtp.quit()

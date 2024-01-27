@@ -10,15 +10,15 @@ from .serializers import EventsSerializer
 class EventsViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventsSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
-    @property
-    def get_permissions(self):
-        if self.action in ['destroy']:
-            self.permission_classes = [IsAdminUser]
-        elif self.action in ['list', 'retrieve']:
-            self.permission_classes = [AllowAny]
-        return super().get_permissions()
+    # @property
+    # def get_permissions(self):
+    #     if self.action in ['destroy']:
+    #         self.permission_classes = [IsAdminUser]
+    #     elif self.action in ['list', 'retrieve']:
+    #         self.permission_classes = [AllowAny]
+    #     return super().get_permissions()
 
     @action(detail=False, methods=['GET'], url_name='my-event')
     def my_event(self, request):
