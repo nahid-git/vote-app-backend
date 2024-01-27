@@ -1,5 +1,6 @@
+from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
 
 from authentication.models import Account, EmailConfirmationModel, ForgotPasswordModel
@@ -102,6 +103,11 @@ class ForgotPasswordSerializer(serializers.Serializer):
                 raise serializers.ValidationError({'email': 'Email does not exist!'})
 
             if user:
+                uid = urlsafe_base64_encode(force_bytes(user.id))
+                already_sent_mail = ForgotPasswordModel.objects.filter(uid=uid).exists()
+                if already_sent_mail:
+                    raise serializers.ValidationError(
+                        {'email': 'You already sent email confirmation. Please check your email.'})
                 sent_reset_password_email(user)
             else:
                 raise serializers.ValidationError({'email': 'Email does not exist!'})
