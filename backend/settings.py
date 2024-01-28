@@ -4,21 +4,17 @@ from pathlib import Path
 
 import environ
 
+env = environ.Env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ENV = environ.Env(DEBUG=(bool, True))
-
-ENV_FILE = Path(os.path.join(BASE_DIR, '.env'))
-if ENV_FILE.exists():
-    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ENV("SECRET_KEY")
-CLIENT_URL = ENV("CLIENT_URL")
+SECRET_KEY = env('SECRET_KEY', default='')
+CLIENT_URL = env('CLIENT_URL', default='')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
@@ -82,12 +78,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vote_app',
-        'USER': 'postgres',
-        'PASSWORD': 'nhbnhb',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'ENGINE': env('DB_ENGINE', default=''),
+        'NAME': env('DB_NAME', default=''),
+        'USER': env('DB_USER', default=''),
+        'PASSWORD': env('DB_PASSWORD', default=''),
+        'HOST': env('DB_HOST', default=''),
+        'PORT': env('DB_PORT', default=''),
     }
 }
 
@@ -144,8 +140,8 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'nahidbabu.info@gmail.com'
-EMAIL_HOST_PASSWORD = 'iqhucpoqkxnvjqxh'
-EMAIL_PORT = 587
+EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=True)
+EMAIL_HOST = env('EMAIL_HOST', default='')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+EMAIL_PORT = env('EMAIL_PORT', default='')
