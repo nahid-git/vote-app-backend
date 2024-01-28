@@ -40,6 +40,7 @@ class SignupSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = Account.objects.create(
             email=validated_data['email'],
+            is_active=False
         )
         user.student_id = validated_data['student_id']
         user.set_password(validated_data['password'])

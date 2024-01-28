@@ -10,3 +10,12 @@ class EventsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['id', 'title', 'description', 'questions']
+
+
+class SubmissionSerializer(serializers.Serializer):
+    question = serializers.IntegerField()
+    answer = serializers.IntegerField()
+
+
+class SubmitVoteSerializer(serializers.Serializer):
+    submission = SubmissionSerializer(many=True)
