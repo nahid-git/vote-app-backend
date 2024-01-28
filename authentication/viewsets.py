@@ -51,7 +51,8 @@ class AuthenticationViewSet(viewsets.ModelViewSet):
 
             return Response({
                 'token': str(refresh.access_token),
-                'email': user.email
+                'email': user.email,
+                'user_id': user.id
             })
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 

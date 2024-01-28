@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'authentication',
     'events',
     'questions',
-    'votes',
     'options'
 ]
 
