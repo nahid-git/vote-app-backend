@@ -10,8 +10,6 @@ from questions.views import QuestionViewSet
 router = routers.DefaultRouter()
 router.register(r'auth', AuthenticationViewSet, basename='authentication')
 router.register(r'events', EventsViewSet, basename='events')
-router.register(r'question', QuestionViewSet, basename='question')
-router.register(r'option', OptionViewSet, basename='option')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
