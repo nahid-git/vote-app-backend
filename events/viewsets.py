@@ -29,7 +29,7 @@ class EventsViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action in ['submit_vote']:
             return SubmitVoteSerializer
-        elif self.action in ['list', 'retrive']:
+        elif self.action in ['list', 'retrieve']:
             return EventsSerializer
         return EmptySerializer
 

@@ -4,8 +4,6 @@ from rest_framework import routers
 
 from authentication.viewsets import AuthenticationViewSet
 from events.viewsets import EventsViewSet
-from options.views import OptionViewSet
-from questions.views import QuestionViewSet
 
 router = routers.DefaultRouter()
 router.register(r'auth', AuthenticationViewSet, basename='authentication')
