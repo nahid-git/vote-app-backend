@@ -12,7 +12,7 @@ from .serializers import EventsSerializer, SubmitVoteSerializer
 
 
 class EventsViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all()
+    queryset = Event.objects.all().order_by('-id')
     serializer_class = EventsSerializer
     permission_classes = [IsAuthenticated]
 
