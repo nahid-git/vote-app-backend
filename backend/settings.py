@@ -19,7 +19,7 @@ CLIENT_URL = env('CLIENT_URL', default='')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'https://voteapp-nahid.vercel.app']
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
 APPEND_SLASH = True
