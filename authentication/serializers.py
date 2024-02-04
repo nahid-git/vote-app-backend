@@ -1,7 +1,10 @@
+import smtplib
+
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
+from rest_framework.response import Response
 
 from authentication.models import Account, EmailConfirmationModel, ForgotPasswordModel
 from authentication.token import account_activation_token
@@ -45,8 +48,11 @@ class SignupSerializer(serializers.ModelSerializer):
         user.student_id = validated_data['student_id']
         user.set_password(validated_data['password'])
         user.save()
-        sent_user_verify_email(user)
-
+        try:
+            sent_user_verify_email(user)
+        except smtplib.SMTPException as e:
+            user.delete()
+            return Response({'message': 'Internal Server Error.'})
         return user
 
 
