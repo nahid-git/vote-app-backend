@@ -18,9 +18,9 @@ def sent_user_verify_email(user):
     uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
     token = account_activation_token.make_token(user)
 
-    EmailConfirmationModel.objects.create(
+    EmailConfirmationModel.objects.update_or_create(
         uid=uidb64,
-        token=token
+        defaults={'token': token}
     )
 
     smtp = smtplib.SMTP(smtp_host, smtp_port)
@@ -45,9 +45,9 @@ def sent_reset_password_email(user):
     uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
     token = account_activation_token.make_token(user)
 
-    ForgotPasswordModel.objects.create(
+    ForgotPasswordModel.objects.update_or_create(
         uid=uidb64,
-        token=token
+        defaults={'token': token}
     )
 
     smtp = smtplib.SMTP(smtp_host, smtp_port)
